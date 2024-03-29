@@ -1,0 +1,308 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        city:
+          type: string
+        token:
+          type: string
+        Recommendation:
+          type: object
+          properties:
+            Age:
+              type: string
+              enum: ["13-17", "18-24", "25-34", "35-44", "45-54", "55-120"]
+            SkinType:
+              type: string
+              enum: ["Normal", "Combination", "Dry", "Oily"]
+            Climate:
+              type: string
+              enum: ["Continental", "Polar", "Tropical", "Dry", "Temperate"]
+            SkinConcerns:
+              type: string
+              enum:
+                [
+                  "Acne",
+                  "Aging",
+                  "Blackheads",
+                  "Dark Circles",
+                  "Dullness",
+                  "Stretch Marks",
+                  "Pores",
+                  "Redness",
+                  "Sun Damage",
+                  "Uneven Skin Tones",
+                ]
+            SkinTyone:
+              type: string
+              enum:
+                [
+                  "Dark",
+                  "Deep",
+                  "Ebony",
+                  "Fair",
+                  "Light",
+                  "Medium",
+                  "Olive",
+                  "Porcelain",
+                  "Tan",
+                ]
+            Gender:
+              type: string
+              enum: ["Male", "Female"]
+            Race:
+              type: string
+              enum: ["Black", "White"]
+
+    Analysis:
+      type: object
+      properties:
+        User:
+          type: string
+        Demographics:
+          type: object
+          properties:
+            Race:
+              type: string
+            Age:
+              type: string
+            Gender:
+              type: string
+        CosmeticConcerns:
+          type: object
+          properties:
+            Name:
+              type: string
+            Detected:
+              type: string
+            Prediction:
+              type: string
+            Description:
+              type: string
+        SkinType:
+          type: object
+          properties:
+            Name:
+              type: string
+            SkinType:
+              type: string
+            Description:
+              type: string
+            Prediction:
+              type: string
+        Whether:
+          type: object
+          properties:
+            UVIndex:
+              type: string
+            Data:
+              type: object
+        skincolor:
+          type: string
+        skintype:
+          type: string
+
+    Custmization:
+      type: object
+      properties:
+        User:
+          type: string
+        Custmization:
+          type: object
+          properties:
+            name:
+              type: string
+            Data:
+              type: object
+              properties:
+                keyingredients:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    image:
+                      type: string
+                    reason:
+                      type: string
+                fragrance:
+                  type: array
+                consistancy:
+                  type: string
+                base:
+                  type: string
+                Preservatives:
+                  type: string
+
+    Logical:
+      type: object
+      properties:
+        User:
+          type: string
+        Demographics:
+          type: object
+          properties:
+            Race:
+              type: string
+            Age:
+              type: string
+            Gender:
+              type: string
+        CosmeticConcerns:
+          type: object
+          properties:
+            Name:
+              type: string
+            Prediction:
+              type: string
+            Description:
+              type: string
+        SkinType:
+          type: object
+          properties:
+            Name:
+              type: string
+            SkinType:
+              type: string
+            Description:
+              type: string
+            Prediction:
+              type: string
+
+    Payment:
+      type: object
+      properties:
+        User:
+          type: string
+        email:
+          type: string
+          format: email
+        product:
+          type: object
+          properties:
+            amount:
+              type: number
+            quantity:
+              type: number
+
+    Response:
+      type: object
+      properties:
+        User:
+          type: string
+        Data:
+          type: object
+
+    Summary:
+      type: object
+      properties:
+        Name:
+          type: string
+        Age:
+          type: string
+        CosmeticData:
+          type: array
+        Color:
+          type: string
+        Type:
+          type: string
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: number
+        message:
+          type: string
+
+    Token:
+      type: object
+      properties:
+        token:
+          type: string
+        expires:
+          type: string
+          format: date-time
+      example:
+        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1ZWJhYzUzNDk9ZC1iMThjLTRmYjYtYmE2Zi1iZDExOTRlMjM3MTIiLCJpYXQiOjE1ODkyOTg0ODQsImV4cCI6MTU4OTMwMDI4NH0.m1U63blB0MLej_WfB7yC2FTMnCziif9X8yzwDEfJXAg
+        expires: 2023-03-16T16:18:04.793Z
+
+    AuthTokens:
+      type: object
+      properties:
+        access:
+          $ref: "#/components/schemas/Token"
+        refresh:
+          $ref: "#/components/schemas/Token"
+
+  responses:
+    DuplicateEmail:
+      description: Email already taken
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            code: 400
+            message: Email already taken
+
+    DuplicateName:
+      description: Name already taken
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            code: 400
+            message: Name already taken
+
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            code: 401
+            message: Please authenticate
+
+    Forbidden:
+      description: Forbidden
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            code: 403
+            message: Forbidden
+
+    NotFound:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            code: 404
+            message: Not found
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Error"
+          example:
+            code: 400
+            message: Bad request
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
